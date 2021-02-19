@@ -9,6 +9,7 @@
 
 def threeSum(nums):
     """
+    双指针
     三数求和为0
     """
     nums = sorted(nums)
@@ -42,15 +43,16 @@ def threeSum(nums):
 
 def fourSum(nums):
     """
+    双指针
     四数求和：在三数求和的基础上，增加一层循环，变成三数求和
     """
     nums = sorted(nums)
     result = []
     ls = len(nums)
     for i in range(ls-3):
-        if i !=0 and nums[i] == nums[i-1]:
+        if i != 0 and nums[i] == nums[i-1]:
             continue
-        for j in range(i+1,ls-2):
+        for j in range(i+1, ls-2):
             left = j + 1
             right = ls - 1
             while left < right:
@@ -78,6 +80,10 @@ def fourSum(nums):
 
 
 def maxArea(nums):
+    """
+    双指针法
+    最大容积
+    """
     res = 0
     left = 0
     right = len(nums)-1
@@ -91,21 +97,45 @@ def maxArea(nums):
 
 
 def liftboat(weights, limit_weight):
+    """
+    双指针法：快艇问题
+    """
     weights = sorted(weights)
     n = 0
     ls = len(weights)
     if ls == 0:
         return n
+    n = 1
     left = 0
     right = ls - 1
     while left < right:
         s = weights[left] + weights[right]
+        n += 1
         if s <= limit_weight:
             left += 1
         else:
-            right -= 1
-        n += 1
+            right -= 1 
     return n
+
+# 快慢指针法 
+def movezeroes(nums):
+    """
+    快指针指向不为零的元素，慢指针指向零元素，满足条件就交换
+    快指针每一步都会增加，直到为不为零的元素；
+    慢指针碰到零元素则对准它；
+    如果慢指针对零，而快指针非零，则交换，然后指针各加1；
+    """
+    slower = 0
+    faster = 0
+    ls = len(nums)
+    while faster <= ls:
+        if nums[slower] != 0:  # 慢指针指向零元素
+            slower += 1
+        elif nums[faster] != 0:  # 快指针指向不为零的元素
+            nums[slower], nums[faster] = nums[faster], nums[slower]
+            slower += 1
+        faster += 1
+    return nums
 
 if __name__ == '__main__':
     nums_1 = [-1, 0, 1, 2, -1, -4]
@@ -118,3 +148,4 @@ if __name__ == '__main__':
     print(fourSum(nums_2))
     print(maxArea(nums_3))
     print(liftboat(weights, limit_weight))
+    print(movezeroes(nums_2))
